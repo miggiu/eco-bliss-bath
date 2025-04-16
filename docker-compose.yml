@@ -21,7 +21,7 @@ services:
 
   bliss-bath-symfony:
     container_name: bliss-bath-symfony
-    image: ghcr.io/oc-for-students/bliss-bath-backend:2-0-0
+    image: ghcr.io/openclassrooms-student-center/bliss-bath-backend:2-0-0
     ports:
       - 8081:8081
     environment:
