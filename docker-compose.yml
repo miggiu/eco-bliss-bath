@@ -37,17 +37,6 @@ services:
       timeout: 5s
       retries: 3
       start_period: 30s
-
-  bliss-bath-angular:
-    container_name: bliss-bath-angular
-    image: ghcr.io/openclassrooms-student-center/eco-bliss-bath-devfront:2-0-0
-    ports:
-      - 8080:8080
-    volumes:
-      - ./frontend:/app
-    depends_on:
-      bliss-bath-symfony:
-        condition: service_healthy
      
 networks:
   symfony:
