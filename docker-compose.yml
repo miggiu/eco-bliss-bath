@@ -21,7 +21,7 @@ services:
 
   bliss-bath-symfony:
     container_name: bliss-bath-symfony
-    image: ghcr.io/openclassrooms-student-center/bliss-bath-backend:2-0-0
+    image: ghcr.io/oc-tl902-students/eco-bliss-bath-backend:2-0-0
     ports:
       - 8081:8081
     environment:
@@ -39,7 +39,8 @@ services:
       start_period: 30s
 
   bliss-bath-angular:
-    build: ./frontend
+    container_name: bliss-bath-angular
+    image: ghcr.io/oc-tl902-students/eco-bliss-bath-devfront:2-0-0
     ports:
       - 8080:8080
     volumes:
