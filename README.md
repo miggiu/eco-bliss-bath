@@ -7,7 +7,9 @@
     <img src="https://img.shields.io/badge/MariaDB-v11.7.2-blue">
     <img src="https://img.shields.io/badge/Symfony-v6.2-blue">
     <img src="https://img.shields.io/badge/Angular-v13.3.0-blue">
+    <img src="https://img.shields.io/badge/Cypress-v14.5.4-blue">
     <img src="https://img.shields.io/badge/docker--build-passing-brightgreen">
+    <img src="https://img.shields.io/badge/Cypress--tests-passing-brightgreen">
   <br><br><br>
 </p>
 
@@ -15,6 +17,7 @@
 Pour démarrer cet applicatif web vous devez avoir les outils suivants:
 - Docker
 - NodeJs
+- Cypress
 
 # Installation et démarrage
 Clonez le projet pour le récupérer
@@ -37,4 +40,19 @@ npm i
 ou
 npm install (si vous préférez)
 ```
+Démarrez le frontend du projet
+```
+npm run start 
+```
+# Démarrez l'outil de test Cypress <br>
+*Les dépendances du projet doivent être installées* 
 
+Pour démarrer le client Cypress
+```
+npm run cy:open
+```
+Pour démarrer les tests e2e dans Chrome <br>
+*Nécessite au moins 1 test e2e existant*
+```
+npm run e2e:chrome
+```
