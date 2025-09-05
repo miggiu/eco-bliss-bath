@@ -24,7 +24,7 @@ describe('add to cart smoke tests', () => {
         .get('.add-to-cart')
         .get('[data-cy="product-link"]').should('exist');
         cy.get('[data-cy="product-link"]').contains('Consulter').click();
-        cy.get('[data-cy="detail-product-add"]').click();
+        cy.get('[data-cy="detail-product-add"]').contains('Ajouter au panier').click();
         cy.url().should('include', '/cart');
     })
 })
