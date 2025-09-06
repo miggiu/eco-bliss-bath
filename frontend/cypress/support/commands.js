@@ -60,9 +60,9 @@ Cypress.Commands.add('visitProducts', () => {
 });
 
 //Command to click on specific product 
-Cypress.Commands.add('visitSpecificProduct', (productName) => {
+Cypress.Commands.add('visitSpecificProduct', (productName, productIndex) => {
   cy.get('[data-cy="product-name"]').contains(productName).should('exist').and('be.visible');
-  cy.get('[data-cy="product-link"]').contains('Consulter').click();
+  cy.get('[data-cy="product-link"]').eq(productIndex).contains('Consulter').click();
 });
 
 //Command that checks that product name, description and consultation button are displayed
@@ -131,5 +131,59 @@ Cypress.Commands.add('checkSingularProductDisplay', (productName, productIndex) 
     cy.url().should('include', '/products');
 })
 });
+
+    // Command that adds to cart and checks that network call is successful for add to cart
+    Cypress.Commands.add('addToCartAndChecksNetwork', () => {
+      cy.intercept('PUT', 'http://localhost:8081/orders/add').as('addedToCart').then(() => {
+             cy.get('[data-cy="detail-product-add"]').contains('Ajouter au panier').click();
+            cy.wait('@addedToCart').its('response.statusCode').should('eq', 200);
+        });
+      });
+
+      //Command that checks that product stock is lowering in product detail page when adding to cart
+      Cypress.Commands.add('checkStockDecreaseOnAddToCart', (productName,productIndex) => {
+         cy.get('[data-cy="nav-link-products"]').should('exist').click();
+         cy.visitSpecificProduct(productName,productIndex);
+         cy.wait(500);
+          cy.get('[data-cy="detail-product-stock"]').should('exist').and('be.visible').and('not.be.empty');
+          cy.get('[data-cy="detail-product-stock"]').invoke('text').then((text) => {
+            const displayedStock = parseInt(text.match(/-?\d+/)?.[0] || '0', 10);
+            cy.wrap(displayedStock).as('stockBeforeAdd'); // Store value as alias
+          });
+          cy.addToCartAndChecksNetwork();
+         // checks that stock has decreased by 1
+        cy.get('@stockBeforeAdd').then((beforeAddCart) => { // Retrieve the stored value
+          const expectedStock = beforeAddCart - 1;
+          cy.get('[data-cy="nav-link-products"]').should('exist').click();
+          cy.visitSpecificProduct(productName,productIndex);
+          cy.wait(500);
+          cy.get('[data-cy="detail-product-stock"]').should('exist').and('be.visible').and('not.be.empty');
+            cy.get('[data-cy="detail-product-stock"]').invoke('text').then((text) => {
+              const displayedStock = parseInt(text.match(/-?\d+/)?.[0] || '0', 10);
+              expect(displayedStock).to.eq(expectedStock);
+              cy.get('[data-cy="nav-link-cart"]').contains('Mon panier').click();
+              cy.url().should('include', '/cart');
+            });
+        });
+      });
+
+
+      // Command that deletes from cart and checks that network call is successful for delete from cart
+      // for one element in cart only
+      Cypress.Commands.add('deleteFromCartAndChecksNetwork', (productIndex) => {
+           cy.intercept('DELETE', 'http://localhost:8081/orders/*/delete').as('removedFromCart').then(() => {
+            cy.get('[data-cy="cart-line-delete"]').eq(productIndex).should('exist').click();
+            cy.wait('@removedFromCart').its('response.statusCode').should('eq', 200);
+            cy.get('[data-cy="cart-line-name"]').should('not.exist');
+            cy.get('[data-cy="cart-empty"]').should('exist').and('be.visible');
+        });
+      });
+
+      // Command that logs user out 
+      Cypress.Commands.add('logout', () => {
+        cy.get('[data-cy="nav-link-logout"]').should('exist').contains('Déconnexion').click();
+        cy.get('[data-cy="nav-link-logout"]').should('not.exist');
+        cy.get('[data-cy="nav-link-login"]').should('exist').contains('Connexion').and('be.visible');
+      });
 
 //Command that mocks products with stock > 1
