@@ -187,3 +187,20 @@ Cypress.Commands.add('checkSingularProductDisplay', (productName, productIndex) 
       });
 
 //Command that mocks products with stock > 1
+
+// Command that checks specific product page in API
+Cypress.Commands.add('checkSpecificProductPageAPI', (productId) => {
+  cy.request('GET', `http://localhost:8081/products/${productId}`).then((response) => {
+    expect(response.status).to.equal(200);
+    expect(response.body).to.have.property('id', productId);
+    expect(response.body).to.have.property('name').and.to.be.a('string').and.to.not.be.empty;
+    expect(response.body).to.have.property('availableStock').and.to.be.a('number');
+    expect(response.body).to.have.property('skin').and.to.be.a('string').and.to.not.be.empty;
+    expect(response.body).to.have.property('aromas').and.to.be.a('string').and.to.not.be.empty;
+    expect(response.body).to.have.property('ingredients').and.to.be.a('string').and.to.not.be.empty;
+    expect(response.body).to.have.property('description').and.to.be.a('string').and.to.not.be.empty;
+    expect(response.body).to.have.property('price').and.to.be.a('number');
+    expect(response.body).to.have.property('picture').and.to.be.a('string').and.to.not.be.empty;
+    expect(response.body).to.have.property('varieties').and.to.be.a('number');
+  });
+});
