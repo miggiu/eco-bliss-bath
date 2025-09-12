@@ -5,7 +5,7 @@ describe('API GET Tests', () => {
       url: 'http://localhost:8081/orders',
       failOnStatusCode: false
     }).then(response => {
-      expect(response.status).to.be.oneOf([401, 403]);
+      expect(response.status).to.eq(401);
       expect(response.body).to.have.property('message');
       expect(response.body.message).to.be.a('string');
       expect(response.body.message).to.include('Token not found');
