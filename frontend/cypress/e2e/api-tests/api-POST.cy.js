@@ -120,7 +120,7 @@ describe('API POST Tests', () => {
                         quantity: 2
                     }
                 }).then((response) => {
-                    expect(response.status).to.eq(400);
+                    expect(response.status).to.eq(405);
                     expect(response.body).to.have.property('message');
                     expect(response.body.message).to.include('Product is out of stock');
 

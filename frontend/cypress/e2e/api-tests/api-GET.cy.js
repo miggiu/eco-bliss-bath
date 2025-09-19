@@ -1,5 +1,5 @@
 describe('API GET Tests', () => {
-  it('should return a 401 or 403 status when a non-logged user tries to access orders', () => {
+  it('should return a 401 status when a non-logged user tries to access orders', () => {
     cy.request({
       method: 'GET',
       url: 'http://localhost:8081/orders',

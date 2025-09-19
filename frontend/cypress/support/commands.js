@@ -59,6 +59,13 @@ Cypress.Commands.add('visitProducts', () => {
   cy.url().should('include', '/products');
 });
 
+// Command to directly go to the review page
+Cypress.Commands.add('visitReviews', () => {
+  cy.visit('http://localhost:4200/');
+  cy.get('[data-cy="nav-link-reviews"]').should('exist').click();
+  cy.url().should('include', '/reviews');
+});
+
 //Command to click on specific product 
 Cypress.Commands.add('visitSpecificProduct', (productName, productIndex) => {
   cy.get('[data-cy="product-name"]').contains(productName).should('exist').and('be.visible');
