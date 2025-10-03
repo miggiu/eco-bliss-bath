@@ -1,0 +1,13 @@
+{ "productInNegativeStock": {
+  "id": "5",
+  "name": "in stock soap",
+  "availableStock": -5,
+  "skin": "all",
+  "aromas": "lavender",
+  "ingredients": "coconut oil",
+  "description": "This is a generic description for a soap product.",
+  "price": 11.99,
+  "picture": "https://via.placeholder.com/150",
+  "varieties": 3
+} 
+}

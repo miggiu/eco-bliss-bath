@@ -1,8 +1,8 @@
 describe('Product Page Display', () => {
 
   it('checks page loading', () => {
-     cy.visit('http://localhost:4200');
-        cy.intercept('GET', 'http://localhost:8081/products').as('getProducts');
+     cy.visit('/');
+        cy.intercept('GET', `${Cypress.env('api_url')}/products`).as('getProducts');
         cy.get('[data-cy="nav-link-products"]').should('exist').click();
         cy.wait('@getProducts');
         cy.url().should('include', '/products');
@@ -24,7 +24,7 @@ describe('Product Page Display', () => {
 
       it ('checks get products API is equal to product array', () => {
        // request to get all products information from API
-        cy.request('GET', 'http://localhost:8081/products').then((response) => {
+        cy.request('GET', `${Cypress.env('api_url')}/products`).then((response) => {
           expect(response.status).to.eq(200);
           const productsFromApi = response.body;
           const productsNamesFromApi = response.body.map(product => product.name);

@@ -1,7 +1,6 @@
 describe('connexion smoke tests', () => {
-    // TODO : addd environnement variables to not directly use 'http://localhost:4200'
     beforeEach(() => {
-        cy.visit('http://localhost:4200')
+        cy.visit('/');
         cy.get('[data-cy="nav-link-login"]').should('exist').click();
 
 })

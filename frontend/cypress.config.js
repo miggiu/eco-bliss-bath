@@ -9,5 +9,7 @@ module.exports = defineConfig({
     login_url: '/login',
     products_url: '/products',
     cart_url: '/cart',
+    test_user_email: 'test2@test.fr',
+    test_user_password: 'testtest',
   },
 })

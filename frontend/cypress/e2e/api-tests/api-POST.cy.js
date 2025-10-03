@@ -3,7 +3,7 @@ describe('API POST Tests', () => {
         cy.request({
             failOnStatusCode: false,
             method: 'POST',
-            url: 'http://localhost:8081/login',
+            url: `${Cypress.env('api_url')}/login`,
             body: {
                 username: 'shouldnotwork@no.com',
                 password: 'wrongpassword'
@@ -20,9 +20,9 @@ describe('API POST Tests', () => {
     });
 
     it('should return a token if the user exists and is correctly logged in', () => {
-        cy.request('POST', 'http://localhost:8081/login', {
-            username: 'test2@test.fr',
-            password: 'testtest'
+        cy.request('POST', `${Cypress.env('api_url')}/login`, {
+            username: Cypress.env('test_user_email'),
+            password: Cypress.env('test_user_password')
         }).then((response) => {
             expect(response.status).to.eq(200);
             expect(response.body).to.have.property('token');
@@ -32,10 +32,10 @@ describe('API POST Tests', () => {
     })
 
     it('connected user can add a product to the cart', () => {
-        cy.request('POST', 'http://localhost:8081/login', {
+        cy.request('POST', `${Cypress.env('api_url')}/login`, {
             failOnStatusCode: false,
-            username: 'test2@test.fr',
-            password: 'testtest'
+            username: Cypress.env('test_user_email'),
+            password: Cypress.env('test_user_password')
         }).then((response) => {
             expect(response.status).to.eq(200);
             expect(response.body).to.have.property('token');
@@ -45,7 +45,7 @@ describe('API POST Tests', () => {
                 cy.request({
                     failOnStatusCode: false,
                     method: 'POST',
-                    url: 'http://localhost:8081/orders/add',
+                    url: `${Cypress.env('api_url')}/orders/add`,
                     headers: {
                         Authorization: `Bearer ${token}`
                     },
@@ -63,10 +63,10 @@ describe('API POST Tests', () => {
     });
 
     it('out of stock product cannot be added to the cart', () => {
-        cy.request('POST', 'http://localhost:8081/login', {
+        cy.request('POST', `${Cypress.env('api_url')}/login`, {
             failOnStatusCode: false,
-            username: 'test2@test.fr',
-            password: 'testtest'
+            username: Cypress.env('test_user_email'),
+            password: Cypress.env('test_user_password')
         }).then((response) => {
             expect(response.status).to.eq(200);
             expect(response.body).to.have.property('token');
@@ -76,7 +76,7 @@ describe('API POST Tests', () => {
                 cy.request({
                     failOnStatusCode: false,
                     method: 'POST',
-                    url: 'http://localhost:8081/orders/add',
+                    url: `${Cypress.env('api_url')}/orders/add`,
                     headers: {
                         Authorization: `Bearer ${token}`
                     },
@@ -98,10 +98,10 @@ describe('API POST Tests', () => {
     // test with method PUT that is currently implemented as a POST in the backend to check if an out of stock product can be added to the cart
     // CAUTION: this SHOULD NOT WORK both because of the PUT method and because the product is out of stock
     it('using PUT method, out of stock product should not be added to the cart', () => {
-        cy.request('POST', 'http://localhost:8081/login', {
+        cy.request('POST', `${Cypress.env('api_url')}/login`, {
             failOnStatusCode: false,
-            username: 'test2@test.fr',
-            password: 'testtest'
+            username: Cypress.env('test_user_email'),
+            password: Cypress.env('test_user_password')
         }).then((response) => {
             expect(response.status).to.eq(200);
             expect(response.body).to.have.property('token');
@@ -111,7 +111,7 @@ describe('API POST Tests', () => {
                 cy.request({
                     failOnStatusCode: false,
                     method: 'PUT',
-                    url: 'http://localhost:8081/orders/add',
+                    url: `${Cypress.env('api_url')}/orders/add`,
                     headers: {
                         Authorization: `Bearer ${token}`
                     },
@@ -124,7 +124,7 @@ describe('API POST Tests', () => {
                     expect(response.body).to.have.property('message');
                     expect(response.body.message).to.include('Product is out of stock');
 
-                    return cy.request('GET', 'http://localhost:8081/orders', {
+                    return cy.request('GET', `${Cypress.env('api_url')}/orders`, {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
@@ -141,10 +141,10 @@ describe('API POST Tests', () => {
     });
 
     it('connected user can post a review for a product', () => {
-        cy.request('POST', 'http://localhost:8081/login', {
+        cy.request('POST', `${Cypress.env('api_url')}/login`, {
             failOnStatusCode: false,
-            username: 'test2@test.fr',
-            password: 'testtest'
+            username: Cypress.env('test_user_email'),
+            password: Cypress.env('test_user_password')
         }).then((response) => {
             expect(response.status).to.eq(200);
             expect(response.body).to.have.property('token');
@@ -154,7 +154,7 @@ describe('API POST Tests', () => {
                 cy.request({
                     failOnStatusCode: false,
                     method: 'POST',
-                    url: 'http://localhost:8081/reviews',
+                    url: `${Cypress.env('api_url')}/reviews`,
                     headers: {
                         Authorization: `Bearer ${token}`
                     },
@@ -170,7 +170,7 @@ describe('API POST Tests', () => {
                     expect(response.body.author).to.have.property('id');
                     return { reviewId: response.body.id, authorId: response.body.author.id };
                 }).then(({ reviewId, authorId }) => {
-                    return cy.request('GET', `http://localhost:8081/reviews`)
+                    return cy.request('GET', `${Cypress.env('api_url')}/reviews`)
                         .then((getResponse) => {
                             expect(getResponse.status).to.eq(200);
                             expect(getResponse.body).to.be.an('array');

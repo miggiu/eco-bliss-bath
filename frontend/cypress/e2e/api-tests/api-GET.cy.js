@@ -2,7 +2,7 @@ describe('API GET Tests', () => {
   it('should return a 401 status when a non-logged user tries to access orders', () => {
     cy.request({
       method: 'GET',
-      url: 'http://localhost:8081/orders',
+      url: `${Cypress.env('api_url')}/orders`,
       failOnStatusCode: false
     }).then(response => {
       expect(response.status).to.eq(401);
@@ -14,7 +14,7 @@ describe('API GET Tests', () => {
 
   it('should return a 200 status when a logged-in user accesses orders', () => {
     // First, log in to get the token
-    cy.request('POST', 'http://localhost:8081/login', {
+    cy.request('POST', `${Cypress.env('api_url')}/login`, {
       username: 'test2@test.fr',
       password: 'testtest'
     }).then((response) => {
@@ -23,7 +23,7 @@ describe('API GET Tests', () => {
       // Now, use the token to access the orders
       cy.request({
         method: 'GET',
-        url: 'http://localhost:8081/orders',
+        url: `${Cypress.env('api_url')}/orders`,
         headers: {
           Authorization: `Bearer ${token}`
         }
