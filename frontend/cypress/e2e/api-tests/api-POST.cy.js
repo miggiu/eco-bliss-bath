@@ -33,7 +33,6 @@ describe('API POST Tests', () => {
 
     it('connected user can add a product to the cart', () => {
         cy.request('POST', `${Cypress.env('api_url')}/login`, {
-            failOnStatusCode: false,
             username: Cypress.env('test_user_email'),
             password: Cypress.env('test_user_password')
         }).then((response) => {
@@ -64,7 +63,6 @@ describe('API POST Tests', () => {
 
     it('out of stock product cannot be added to the cart', () => {
         cy.request('POST', `${Cypress.env('api_url')}/login`, {
-            failOnStatusCode: false,
             username: Cypress.env('test_user_email'),
             password: Cypress.env('test_user_password')
         }).then((response) => {
@@ -99,7 +97,6 @@ describe('API POST Tests', () => {
     // CAUTION: this SHOULD NOT WORK both because of the PUT method and because the product is out of stock
     it('using PUT method, out of stock product should not be added to the cart', () => {
         cy.request('POST', `${Cypress.env('api_url')}/login`, {
-            failOnStatusCode: false,
             username: Cypress.env('test_user_email'),
             password: Cypress.env('test_user_password')
         }).then((response) => {
@@ -142,7 +139,6 @@ describe('API POST Tests', () => {
 
     it('connected user can post a review for a product', () => {
         cy.request('POST', `${Cypress.env('api_url')}/login`, {
-            failOnStatusCode: false,
             username: Cypress.env('test_user_email'),
             password: Cypress.env('test_user_password')
         }).then((response) => {
