@@ -9,7 +9,7 @@
     <img src="https://img.shields.io/badge/Angular-v13.3.0-blue">
     <img src="https://img.shields.io/badge/Cypress-v14.5.4-blue">
     <img src="https://img.shields.io/badge/docker--build-passing-brightgreen">
-    <img src="https://img.shields.io/badge/Cypress--tests-passing-brightgreen">
+    <img src="https://img.shields.io/badge/Cypress--tests-notpassing-red">
   <br><br><br>
 </p>
 
@@ -25,7 +25,7 @@ Clonez le projet pour le récupérer
 git clone https://github.com/OpenClassrooms-Student-Center/Eco-Bliss-Bath-V2.git
 cd Eco-Bliss-Bath-V2
 ```
-Pour démarrer l'API avec ça base de données.
+Pour démarrer l'API avec sa base de données.
 ```
 docker compose up -d
 ```
@@ -38,7 +38,7 @@ Installez les dépendances du projet
 ```
 npm i
 ou
-npm install (si vous préférez)
+npm install 
 ```
 Démarrez le frontend du projet
 ```
@@ -51,8 +51,10 @@ Pour démarrer le client Cypress
 ```
 npm run cy:open
 ```
-Pour démarrer les tests e2e dans Chrome <br>
+Pour démarrer les tests e2e dans Chrome, en headless <br>
 *Nécessite au moins 1 test e2e existant*
 ```
 npm run e2e:chrome
 ```
+
+
